@@ -1,13 +1,12 @@
 import { Request, Response, NextFunction } from 'express';
-import bcryptS from '../../services/bcryptService';
-import jwtS from '../../services/jwtService';
+import S from '../../services';
 import db from '../../db/connection';
 import { Register } from './index.d';
 
 export const createUser = async (req: Request, res: Response, next: NextFunction) => {
   console.log('Creating User...');
   const { email, password, firstName, lastName }: Register = req.body;
-  const hashedPass = await bcryptS.hashPass(password);
+  const hashedPass = await S.bcrypt.hashPass(password);
   const query = [email, hashedPass, firstName, lastName];
 
   try {
@@ -18,8 +17,8 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
         if (err) return next(err);
         console.log('result', result);
         const { id } = result.rows[0];
-        const token = await jwtS.signToken(id);
-        res.status(201).json(token);
+        const token = await S.jwt.signToken(id);
+        res.status(201).cookie('token', token);
       }
     );
   } catch (err) {
