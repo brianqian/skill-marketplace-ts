@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import S from '../../services';
 import db from '../../db/connection';
-import { Register } from './index.d';
+import { Register } from '.';
 
 export const createUser = async (req: Request, res: Response, next: NextFunction) => {
   console.log('Creating User...');

@@ -7,7 +7,7 @@ import routes from './routes';
 import asyncHandler from './utils/asyncHandler';
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 8080;
 const isDev = process.env.NODE_ENV || 'development';
 // Enable security, CORS, compression, favicon and body parsing
 
@@ -16,7 +16,7 @@ app.use(cors());
 app.use(compress());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use('/api', routes);
+app.use('/', routes);
 
 app.use(express.static(path.join(__dirname, 'build')));
 
